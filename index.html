@@ -5,6 +5,125 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style/style.css">
 
+    <script type = "text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type = "text/javascript">
+        google.charts.load('current', {'packages': ['corechart']});
+        google.charts.setOnLoadCallback(drawAllSheets);
+
+        function drawAllSheets() {
+        drawSheetName('EducationVsGDP2018BubbleHandler',
+        'SELECT A, B, C, D, E',
+            EducationVsGDP2018BubbleHandler);
+        drawSheetName('MilitaryVsGDP2018BubbleHandler',
+        'SELECT A, B, C, D, E',
+            MilitaryVsGDP2018BubbleHandler);
+        drawSheetName('HealthVsGDP2018BubbleHandler',
+        'SELECT A, B, C, D, E',
+            HealthVsGDP2018BubbleHandler);
+	} //drawAllSheets
+
+    function drawSheetName(sheetName, query, responseHandler) {
+		var queryString = encodeURIComponent(query);
+		var query = new google.visualization.Query(
+	           
+               'https://docs.google.com/spreadsheets/d/1OF6h0Qgbx5wWa2geQLr4jXDjeGEvVskHx0ORNmelrkw/gviz/tq?sheet='
+			   + sheetName + '&headers=1&tq=' + queryString);
+	       query.send(responseHandler);
+	} //drawSheetName
+
+    function checkError(response) {
+		if(response.isError()) {
+		alert('Error in query: '+ response.getMessage() +
+		' ' + response.getDetailedMessage());
+	    return;}
+    }//checkError
+    
+	function EducationVsGDP2018BubbleHandler(response) {
+          var data = response.getDataTable();
+          data.sort({column: 3, desc: true});
+          var view = new google.visualization.DataView(data);  
+          var options = {
+                    title:' GDP vs Education as Percentage of GDP - 2018 (Log Scale)',
+                    width: 650,
+                    height: 500,
+                    hAxis:{
+                        title:'GDP (In Billions of USD)', 
+                        logScale:'true',
+                        viewWindow: {max:50000},
+                        },
+                    vAxis:{
+                        viewWindow: {max:0.13, min:-0.01},
+                        title:'Education as Percentage of GDP',
+                        format: 'percent'},
+                    bubble:{
+                        textStyle: {auraColor: 'none', fontSize: 8},
+                        opacity: 0.5,
+                        },
+                    };
+              
+          var chart = new google.visualization.BubbleChart(
+                      document.getElementById('EducationVsGDPBubble_div'));
+                      chart.draw(data, options);
+      } //EducationVsGDP2018BubbleHandler
+
+      function MilitaryVsGDP2018BubbleHandler(response) {
+          var data = response.getDataTable();
+          data.sort({column: 3, desc: true});
+          var view = new google.visualization.DataView(data);  
+          var options = {
+                    title:' GDP vs Military as Percentage of GDP - 2018 (Log Scale)',
+                    width: 650,
+                    height: 500,
+                    hAxis:{
+                        title:'GDP (In Billions of USD)', 
+                        logScale:'true',
+                        viewWindow: {max:50000},
+                        },
+                    vAxis:{
+                        viewWindow: {max:0.09},
+                        title:'Military as Percentage of GDP',
+                        format: 'percent'},
+                    bubble:{
+                        textStyle: {auraColor: 'none', fontSize: 8},
+                        opacity: 0.5,
+                        },
+                    };
+              
+          var chart = new google.visualization.BubbleChart(
+                      document.getElementById('MilitaryVsGDPBubble_div'));
+                      chart.draw(data, options);
+      } //MilitaryVsGDP2018BubbleHandler
+
+
+      function HealthVsGDP2018BubbleHandler(response) {
+          var data = response.getDataTable();
+          data.sort({column: 3, desc: true});
+          var view = new google.visualization.DataView(data);  
+          var options = {
+                    title:' GDP vs Health as Percentage of GDP - 2018 (Log Scale)',
+                    width: 650,
+                    height: 500,
+                    hAxis:{
+                        title:'GDP (In Billions of USD)', 
+                        logScale:'true',
+                        viewWindow: {max:50000},
+                        },
+                    vAxis:{
+                        title:'Health as Percentage of GDP',
+                        viewWindow: {max:0.20},
+                        format: 'percent'},
+                    bubble:{
+                        textStyle: {auraColor: 'none', fontSize: 8},
+                        opacity: 0.5,
+                        },
+                    };
+              
+          var chart = new google.visualization.BubbleChart(
+                      document.getElementById('HealthVsGDPBubble_div'));
+                      chart.draw(data, options);
+      } //HealthVsGDP2018BubbleHandler
+    </script>
+
     <title>Visualization Of Complex Data- DAT6401</title>
 </head>
 <body>
@@ -38,12 +157,37 @@
         <p>Established in 1999 after a series of major international debt crises, the G20 aims to unite world leaders around shared economic, political and health challenges. It is a creation of the more select Group of 7, an informal bloc of industrialized democracies. Supporters argue that as national economies grow ever more globalized, it is essential that political and finance leaders work closely together.</p>
 
         <p>The following article will give some Infographic's of the healthcare, education and military spendings of the G-20 countries. We will compare the spendings with the GDP of each country, as well as the GDP per capita. The data was retrived from the World bank, and its from the year 2000 to 2018. Some missing values were estimated by a simple mean calculation.</p>
+
+        <div class="content-left">
+            <h3>Education Expenditure vs Percentage of GDP</h3>
+            <p>On the bubble chart we can observe that the country with the highest GDP is the US with 20,544 Billions of USD. However, their percentage of education as GDP is about the same as the other countries with lower GDP.  On the other side, We can observe how China has the lower education as percentage of GDP, despite that is the country with the second GDP in USD in all of the countries. Finaly, Turkey has the highest education expenditure compared to the other G-20 countries.</p>
+        </div><!--content-left-->
+        <div class="content-right">
+            <div id='EducationVsGDPBubble_div' class="graph"> </div>
+        </div><!--content-right-->
         
+        <div class="content-left">
+            <h3>Military Expenditure vs Percentage of GDP</h3>
+            <p>As we can observe from the graph,USA has the biggest military expendings with 648 billions of USD, followed by china with 250 billions of USD. Saudi Arabia has the biggest military expenditure as percentage of GDP with 8.6%. All the other countries remain between 2 to 4 percent of militart spendings as percentage of GDP. </p>
+        </div>
+        <div class="content-right">
+            <div id='MilitaryVsGDPBubble_div' class="graph"> </div>
+        </div><!--content-right-->
+
+        <div class="content-left">
+            <h3>Health Expenditure vs Percentage of GDP</h3>
+            <p>USA has the largest health Spending with almost 3500 billion of USD. China has a low health expediture compare to its large GDP, and the rest of the countries are almost within the same range between 5 to 10 percent fo healt expediture from the GDP. Indonesia has the heath expediture as percentage of its GDP. </p>
+
+        </div>
+        <div class="content-right">
+            <div id='HealthVsGDPBubble_div' class="graph"> </div>
+        </div><!--content-right-->
+
     </div><!--content-->
 
     <div class="footer">
         <p>© Renzo Castagnino. All rights reserved.</p>
-      </div><!--footer-->
+    </div><!--footer-->
 
 </body>
 </html>
