@@ -51,17 +51,19 @@
             data.sort({column:1, desc:true});
             var options = {
                     width: 670,
-                    height: 400,
+                    height: 440,
                     title: 'Education vs Military Expenditure in 2018 (Billions of USD)',
                     legend: {position: 'top', textStyle: {fontSize: 8}},
                     bars: 'horizontal',
 				    isStacked: false,
 	                vAxis:{
                         textStyle: {fontSize: 10},
+                        title:'Billions of USD',
                         },
-				    hAxis:{
-                        title:'Billions of USD', 
+				    hAxis:{ 
                         textStyle: {fontSize: 10},
+                        slantedText:true, 
+                        slantedTextAngle:90,
                         },
                      };	
             var chart = new google.visualization.ColumnChart(
@@ -110,17 +112,19 @@
             data.sort({column:1, desc:true});
             var options = {
                     width: 670,
-                    height: 400,
+                    height: 440,
                     title: 'Health vs Military Expenditure in 2018 (Billions of USD)',
                     legend: {position: 'top', textStyle: {fontSize: 8}},
                     bars: 'horizontal',
 				    isStacked: false,
 	                vAxis:{
                         textStyle: {fontSize: 10},
+                        title:'Billions of USD',
                         },
-				    hAxis:{
-                        title:'Billions of USD', 
+				    hAxis:{ 
                         textStyle: {fontSize: 10},
+                        slantedText:true, 
+                        slantedTextAngle:90,
                         },
                      };	
             var chart = new google.visualization.ColumnChart(
@@ -163,18 +167,18 @@
 
     <nav class="navigation-bar">
         <ul>
-        <li><a href="index.html">Expenditure Over GDP</a></li>
-        <li><a href="page1.html">Education and Health vs Military</a></li>
-        <li><a href="page2.html">Per Capita Education vs GDP</a></li>
-        <li><a href="page3.html">Per Capita Health vs GDP</a></li>
-        <li><a href="page4.html">Per Capita Military vs GDP</a></li>
-        <li><a href="page5.html">Fastests Growing Countries</a></li>
+            <li><a href="index.html">Expenditure Over GDP</a></li>
+            <li><a class="current" href="EduAndHealthVsMil.html">Education and Health vs Military</a></li>
+            <li><a href="EduPerCap.html">Education Per Capita vs GDP</a></li>
+            <li><a href="HealthPerCap.html">Health Per Capita vs GDP</a></li>
+            <li><a href="MilPerCapita.html">Military Per Capita vs GDP</a></li>
+            <li><a href="FastestGrow.html">Fastests Growing Countries</a></li>
         </ul>
     </nav><!--navigation-bar-->
 
     <div class="content">
         <p id='article-date'>March 1st, 2020, Wahington D.C.</p>
-        <h1>Educational and Healthcare, compared to the overall Military Spending of the G-20 Nations from 2000 to 2018 [Infographic]</h1>
+        <h1>Educational and Healthcare, compared to the overall Military spending of the G-20 Nations from 2000 to 2018 [Infographic]</h1>
         <p id="name">Renzo Castagnino</p>
         <p id='name-title'>Data Scientist - The George Washington University</p>
    
@@ -206,7 +210,7 @@
 
         <div class="content-left">
             <h3>Health vs Military Expenditure in 2018</h3>
-            <p>As we can observe from the bar chart, the country with the expediture not only in eduation, but also in education, is the United States with almost 1000 billions of USD in education, compared with a 648 billion of usd in military expediture. Furthermore, all of the countries has more expenditure in education than in military except for China and Saudi Arabia. both countries expend more in military than education.</p>
+            <p>We can interpret from the graph that the coutry with the highest expenditure is the US with almost 3500 billions of USD, compared to the 648 billions for the military expenditure. The second country is china, with almost 675 billions of USD in Health expenditure ( just as much as the US expends in military).</p>
         </div><!--content-left-->
 
         <div class="content-right">
@@ -215,7 +219,7 @@
 
         <div class="content-left">
             <h3>Health vs Military Expenses from 2000 to 2018</h3>
-            <p>There is an overall upward trend from 2000 to 2018 in both military and education expenses. However, we can see that for all the years, education has remained higher that the military expediture.</p>
+            <p>It is interesting to notice how the average of all the countries in health expenses has a noticable upward trend. For the year 2000, the overall expenditure in health was about 130 billions of USD, compared to almos 370 billions in 2018. For all the years, health expenses has been higher compared to the military expenses. </p>
         </div><!--content-left-->
 
         <div class="content-right">

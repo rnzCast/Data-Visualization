@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style/style.css">
+
+    <script type = "text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type = "text/javascript">
+        google.charts.load('current', {'packages': ['corechart']});
+        google.charts.setOnLoadCallback(drawAllSheets);
+
+        function drawAllSheets() {
+        drawSheetName('EducationPerCapitaMeanGeoMapHandler','SELECT A, B', EducationPerCapitaMeanGeoMapHandler);
+        drawSheetName('PerCapitaEducationVsGDPBubble','SELECT A, B,C,D,E', PerCapitaEducationVsGDPBubbleHandler);
+        drawSheetName('EducationPerCapVsGDPPerCapColumnChart','SELECT A,B,C', EducationPerCapVsGDPPerCapColumnChartHandler);
+        drawSheetName('AvgEduPerCapVsAvgGDPPerCapLineChart','SELECT A,B,C', AvgEduPerCapVsAvgGDPPerCapLineChartHandler);
+
+
+	    } //drawAllSheets
+
+    function drawSheetName(sheetName, query, responseHandler) {
+		var queryString = encodeURIComponent(query);
+		var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1OF6h0Qgbx5wWa2geQLr4jXDjeGEvVskHx0ORNmelrkw/gviz/tq?sheet='+ sheetName + '&headers=1&tq=' + queryString);
+	       query.send(responseHandler);
+	} //drawSheetName
+
+    function checkError(response) {
+		if(response.isError()) {
+		alert('Error in query: '+ response.getMessage() +
+		' ' + response.getDetailedMessage());
+	    return;}
+    }//checkError
+    
+    function EducationPerCapitaMeanGeoMapHandler(response) {
+		var data = response.getDataTable();
+        data.sort({column:1, desc:true});
+        var options = {
+                height:650,
+                colorAxis: { colors: ['#F8BBD0','#AD1457'] },
+                title: 'Mean Education Per Capita in Education by Country'
+                };
+        var chart = new google.visualization.GeoChart(
+		    document.getElementById('EducationPerCapitaMeanGeoMap_div'));
+		    chart.draw(data, options);
+      }//EducationPerCapitaMeanGeoMapHandler
+
+    function PerCapitaEducationVsGDPBubbleHandler(response) {
+          var data = response.getDataTable();
+          data.sort({column: 2, desc: true});
+          var view = new google.visualization.DataView(data);  
+          var options = {
+                    title:' Education Per Capita vs GDP Per Capita - 2018',
+                    legend: {position: 'right', textStyle: {fontSize: 8}},
+                    width: 1000,
+                    height: 500,
+                    hAxis:{
+                        title:'GPD Per Capita (USD)', 
+                        viewWindow: {min:1000, max:70000},
+                        textStyle: {fontSize: 10},
+                        },
+                    vAxis:{
+                        viewWindow: {max:0.14, min:-0.01},
+                        textStyle: {fontSize: 10},
+                        title:'% Of Education Per Capita',
+                        format: 'percent'},
+                    bubble:{
+                        textStyle: {auraColor: 'none', fontSize: 8},
+                        opacity: 0.5,
+                        },
+                    };
+            var chart = new google.visualization.BubbleChart(
+                document.getElementById('PerCapitaEducationVsGDP_div'));
+                chart.draw(data, options);
+      } //PerCapitaEducationVsGDPBubbleHandler
+
+      function EducationPerCapVsGDPPerCapColumnChartHandler(response) {
+            var data = response.getDataTable();
+            data.sort({column:2, desc:true});
+            var options = {
+                    width: 650,
+                    height: 390,
+                    title: 'Education Per Capita vs GDP Per Capita (USD)',
+                    legend: {position: 'top', textStyle: {fontSize: 8}},
+                    bars: 'horizontal',
+				    isStacked: false,
+	                vAxis:{
+                        textStyle: {fontSize: 10},
+                        title:'USD',
+                        },
+				    hAxis:{ 
+                        textStyle: {fontSize: 10},
+                        slantedText:true, 
+                        slantedTextAngle:90,
+                        },
+                     };	
+            var chart = new google.visualization.ColumnChart(
+                document.getElementById('EducationPerCapVsGDPPerCapColumnChart_div'));		 
+                chart.draw(data, options);
+        } //EducationPerCapVsGDPPerCapColumnChartHandler 
+
+    function AvgEduPerCapVsAvgGDPPerCapLineChartHandler(response) {
+        var data = response.getDataTable();
+        var options = {
+                width: 670,
+                height: 400,
+                title: 'Average Education Per Capita vs GDP Per Capita from 2000 to 2018',
+                legend: {position: 'top', textStyle: {fontSize: 8}},
+                vAxis:{
+                    textStyle: {fontSize: 10},
+                    title:'USD',
+                    },
+                hAxis:{
+                    title:'Year', 
+                    textStyle: {fontSize: 10},
+                    viewWindow: {min:2000, max:2020},
+                    },
+                    };	
+        var chart = new google.visualization.LineChart(
+            document.getElementById('AvgEduPerCapVsAvgGDPPerCapLineChart_div'));		 
+            chart.draw(data, options);
+    } //AvgEduPerCapVsAvgGDPPerCapLineChartHandler  
+
+    </script>
+
+    <title>Visualization Of Complex Data - DAT6401</title>
+</head>
+<body>
+    <header class="header">
+        <h1>THE GEORGE WASHINGTON UNIVERSITY  |  Visualization Of Complex Data - DAT6401</h1>
+    </header><!--header-->
+
+    <div id="top-content">
+    </div><!--top-content-->
+
+    <nav class="navigation-bar">
+        <ul>
+            <li><a href="index.html">Expenditure Over GDP</a></li>
+            <li><a href="EduAndHealthVsMil.html">Education and Health vs Military</a></li>
+            <li><a class="current" href="EduPerCap.html">Education Per Capita vs GDP</a></li>
+            <li><a href="HealthPerCap.html">Health Per Capita vs GDP</a></li>
+            <li><a href="MilPerCapita.html">Military Per Capita vs GDP</a></li>
+            <li><a href="FastestGrow.html">Fastests Growing Countries</a></li>
+        </ul>
+    </nav><!--navigation-bar-->
+
+    <div class="content">
+        <p id='article-date'>March 1st, 2020, Wahington D.C.</p>
+        <h1>Education per capita compare to the GDP per capita for the the G-20 Nations from 2000 to 2018 [Infographic]</h1>
+        <p id="name">Renzo Castagnino</p>
+        <p id='name-title'>Data Scientist - The George Washington University</p>
+   
+        <p>In the following graphs we will show the map of the education per capita by region; and how the education per capita is compared to the GDP per capita for all of the G-20 countries from the year 2000 to 2018. If we observe the map, we can see that the USA is the country with the highest average of education per capita (2540 billions of USD), followed by Australia and Canada respectively. However, if we take a look at the scatter plot, the statistics for the year 2018 show that all of the countries have in between 4 to 6 percent of average in education per capita. Furthermore, Turkey is the country with the highest education per capita with almost 13%. On contrary, China is the lowest country of education per capita with 0.04%. </p>
+
+        <p class="geo-title">MEAN OF EDUCATION PER CAPITA BY COUNTRY FROM 2000 to 2018 (USD)</p>
+        <div class="content-wide" id="EducationPerCapitaMeanGeoMap_div"></div>
+
+
+        <p class="geo-title">EDUCATION PER CAPITA FOR THE YEAR 2018</p>
+        <div class="content-wide-bubble" id="PerCapitaEducationVsGDP_div"></div>
+
+
+        <div class="content-left">
+            <h3>Education Per Capita vs GDP Per Capita 2018</h3>
+            <p>As we can see in the bar chart, for the year 2018 USA has not only the greatest GDP per capita, but also the highest education per capita. Australia, Canada and the United Kindom are the next countries to follow with the highest education per capita. India and China are the lowest countries on the list with.</p>
+        </div><!--content-left-->
+
+        <div class="content-right">
+            <div id='EducationPerCapVsGDPPerCapColumnChart_div' class="graph"> </div>
+        </div><!--content-right-->
+
+        <div class="content-left">
+            <h3>Average Education Per Capita vs Average GDP Per Capita -  2000 to 2018</h3>
+            <p>There is an overall upward in the average of the GPD. For the year 2000, the GDP was 14,000 USD on average, ending with almost 26,000 USD in 2018. On the other side , the education per capita has also increase from $638 in 2000, up to about $1300 in 2018. This means that both number have increased over time.</p>
+        </div><!--content-left-->
+
+        <div class="content-right">
+            <div id='AvgEduPerCapVsAvgGDPPerCapLineChart_div' class="graph"> </div>
+        </div><!--content-right-->
+
+
+
+    </div><!--content-->
+    <div class="footer">
+        <p>© Renzo Castagnino. All rights reserved.</p>
+    </div><!--footer-->
+
+</body>
+</html>

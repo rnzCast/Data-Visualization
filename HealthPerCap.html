@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style/style.css">
+
+    <script type = "text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type = "text/javascript">
+        google.charts.load('current', {'packages': ['corechart']});
+        google.charts.setOnLoadCallback(drawAllSheets);
+
+        function drawAllSheets() {
+        drawSheetName('HealthPerCapitaMeanGeoMapHandler', 'SELECT A, B', HealthPerCapitaMeanGeoMapHandler);
+        drawSheetName('PerCapitaHealthVsGDPBubble', 'SELECT A, B, C, D, E', PerCapitaHealthVsGDPBubbleHandler);
+        drawSheetName('HealthPerCapVsGDPPerCapColumnChart', 'SELECT A, B, C', HealthPerCapVsGDPPerCapColumnChartHandler);
+        drawSheetName('AvgHealthPerCapVsAvgGDPPerCapLineChart', 'SELECT A, B, C', AvgHealthPerCapVsAvgGDPPerCapLineChartHandler);
+
+
+	    } //drawAllSheets
+
+    function drawSheetName(sheetName, query, responseHandler) {
+		var queryString = encodeURIComponent(query);
+		var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1OF6h0Qgbx5wWa2geQLr4jXDjeGEvVskHx0ORNmelrkw/gviz/tq?sheet='+ sheetName + '&headers=1&tq=' + queryString);
+	       query.send(responseHandler);
+	} //drawSheetName
+
+    function checkError(response) {
+		if(response.isError()) {
+		alert('Error in query: '+ response.getMessage() +
+		' ' + response.getDetailedMessage());
+	    return;}
+    }//checkError
+    
+    function HealthPerCapitaMeanGeoMapHandler(response) {
+		var data = response.getDataTable();
+        data.sort({column:1, desc:true});
+        var options = {
+                height:650,
+                colorAxis: { colors: ['#FEF9E7','#B7950B'] },
+                title: 'Mean Health Per Capita in Education by Country'
+                };
+        var chart = new google.visualization.GeoChart(
+		    document.getElementById('HealthPerCapitaMeanGeoMap_div'));
+		    chart.draw(data, options);
+      }//HealthPerCapitaMeanGeoMapHandler
+
+    function PerCapitaHealthVsGDPBubbleHandler(response) {
+          var data = response.getDataTable();
+          data.sort({column: 2, desc: true});
+          var view = new google.visualization.DataView(data);  
+          var options = {
+                    title:' Health Per Capita vs GDP Per Capita - 2018',
+                    legend: {position: 'right', textStyle: {fontSize: 8}},
+                    width: 1000,
+                    height: 500,
+                    hAxis:{
+                        title:'GPD Per Capita (USD)', 
+                        viewWindow: {min:1000, max:70000},
+                        textStyle: {fontSize: 10},
+                        },
+                    vAxis:{
+                        viewWindow: {max:0.20, min:0.020},
+                        textStyle: {fontSize: 10},
+                        title:'% Of Health Per Capita',
+                        format: 'percent'},
+                    bubble:{
+                        textStyle: {auraColor: 'none', fontSize: 8},
+                        opacity: 0.5,
+                        },
+                    };
+            var chart = new google.visualization.BubbleChart(
+                document.getElementById('PerCapitaHealthVsGDP_div'));
+                chart.draw(data, options);
+      } //PerCapitaHealthVsGDPBubbleHandler
+
+      function HealthPerCapVsGDPPerCapColumnChartHandler(response) {
+            var data = response.getDataTable();
+            data.sort({column:1, desc:true});
+            var options = {
+                    width: 650,
+                    height: 380,
+                    title: 'Health Per Capita vs GDP Per Capita (USD)',
+                    legend: {position: 'top', textStyle: {fontSize: 8}},
+                    bars: 'horizontal',
+				    isStacked: false,
+	                vAxis:{
+                        textStyle: {fontSize: 10},
+                        title:'USD',
+                        },
+				    hAxis:{ 
+                        textStyle: {fontSize: 10},
+                        slantedText:true, 
+                        slantedTextAngle:90,
+                        },
+                     };	
+            var chart = new google.visualization.ColumnChart(
+                document.getElementById('HealthPerCapVsGDPPerCapColumnChart_div'));		 
+                chart.draw(data, options);
+        } //HealthPerCapVsGDPPerCapColumnChartHandler 
+
+    function AvgHealthPerCapVsAvgGDPPerCapLineChartHandler(response) {
+        var data = response.getDataTable();
+        var options = {
+                width: 670,
+                height: 400,
+                title: 'Average Health Per Capita vs GDP Per Capita from 2000 to 2018',
+                legend: {position: 'top', textStyle: {fontSize: 8}},
+                vAxis:{
+                    textStyle: {fontSize: 10},
+                    title:'USD',
+                    },
+                hAxis:{
+                    title:'Year', 
+                    textStyle: {fontSize: 10},
+                    viewWindow: {min:2000, max:2020},
+                    },
+                    };	
+        var chart = new google.visualization.LineChart(
+            document.getElementById('AvgHealthPerCapVsAvgGDPPerCapLineChart_div'));		 
+            chart.draw(data, options);
+    } //AvgHealthPerCapVsAvgGDPPerCapLineChartHandler  
+
+    </script>
+
+    <title>Visualization Of Complex Data - DAT6401</title>
+</head>
+<body>
+    <header class="header">
+        <h1>THE GEORGE WASHINGTON UNIVERSITY  |  Visualization Of Complex Data - DAT6401</h1>
+    </header><!--header-->
+
+    <div id="top-content">
+    </div><!--top-content-->
+
+    <nav class="navigation-bar">
+        <ul>
+            <li><a href="index.html">Expenditure Over GDP</a></li>
+            <li><a href="EduAndHealthVsMil.html">Education and Health vs Military</a></li>
+            <li><a href="EduPerCap.html">Education Per Capita vs GDP</a></li>
+            <li><a class="current" href="HealthPerCap.html">Health Per Capita vs GDP</a></li>
+            <li><a href="MilPerCapita.html">Military Per Capita vs GDP</a></li>
+            <li><a href="FastestGrow.html">Fastests Growing Countries</a></li>
+        </ul>
+    </nav><!--navigation-bar-->
+
+    <div class="content">
+        <p id='article-date'>March 1st, 2020, Wahington D.C.</p>
+        <h1>Health per capita compare to the GDP per capita for the G-20 Nations from 2000 to 2018 [Infographic]</h1>
+        <p id="name">Renzo Castagnino</p>
+        <p id='name-title'>Data Scientist - The George Washington University</p>
+   
+        <p>In the following graphs we will show the map of the health per capita by region; and how the health per capita is compared to the GDP per capita for all of the G-20 countries from the year 2000 to 2018. In the map we can see that the US has the highest health expenditure per capita ($7600 for 2018), followed by Germany, Canada and Australia. If we observe the scatter plot, we can see as the USA with the highest percentage of GDP per Capita, followed by a cluster of european countries and Australia. The lowest countries on the rank are India and Indonesia.</p>
+
+        <p class="geo-title">MEAN OF HEALTH PER CAPITA BY COUNTRY FROM 2000 to 2018 (USD)</p>
+        <div class="content-wide" id="HealthPerCapitaMeanGeoMap_div"></div>
+
+
+        <p class="geo-title">HEALTH PER CAPITA FOR THE YEAR 2018</p>
+        <div class="content-wide-bubble" id="PerCapitaHealthVsGDP_div"></div>
+
+
+        <div class="content-left">
+            <h3>Health Per Capita vs GDP Per Capita 2018</h3>
+            <p>From the chart we can also observe how the GPD per capita is compared to the health per capita. Again, for the US, in 2018 we have a health per capita of about $10,000, followed by Australia and Germany with $5300 and $5290 respectively.South Africa, Indonesia and India are the lowest in the rank. </p>
+        </div><!--content-left-->
+
+        <div class="content-right">
+            <div id='HealthPerCapVsGDPPerCapColumnChart_div' class="graph"> </div>
+        </div><!--content-right-->
+
+        <div class="content-left">
+            <h3>Average Health Per Capita vs Average GDP Per Capita -  2000 to 2018</h3>
+            <p>In terms of the average health per capita, there is a constant upward trend. In the year 2000, the avergage health per capita was around 1000 USD, but for the year 2018, it was almost 2700 USD.</p>
+        </div><!--content-left-->
+
+        <div class="content-right">
+            <div id='AvgHealthPerCapVsAvgGDPPerCapLineChart_div' class="graph"> </div>
+        </div><!--content-right-->
+
+
+
+    </div><!--content-->
+    <div class="footer">
+        <p>© Renzo Castagnino. All rights reserved.</p>
+    </div><!--footer-->
+
+</body>
+</html>
