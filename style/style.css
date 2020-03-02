@@ -28,12 +28,13 @@ header {
 ul {
     list-style-type: none;
     margin: 0;
-    padding-left: 100px;
+    padding-left: 50px;
     overflow: hidden;
     background-color: #333;
-    background-size: 100px 400px;
+    background-size: 100px 300px;
     margin-left: 20%;
     margin-right: 20%;
+    font-size: 10px;
   }
   
   li {
@@ -87,6 +88,12 @@ ul {
     text-align: justify;
 }
 
+.content .geo-title{
+   font-weight: bold;
+   font-size: 12px;
+   text-align: center; 
+}
+
 #name{
     font: 400 14px/16px "Work Sans",sans-serif;
     font-weight: bold;
@@ -115,6 +122,17 @@ ul {
     height: 500px;
     margin-left: 30px;
     margin-bottom: 20px;
+    margin-top: 0;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.content .content-wide{
+    width: 1000px; 
+    height: 640px;
+    margin-left: 40px;
+    margin-bottom: 20px;
+    margin-right: 0;
     margin-top: 0;
     display: inline-block;
     overflow: hidden;
