@@ -17,7 +17,7 @@ header {
     height: 400px;
     width: 1200px;
     margin-left: 20%;
-    background-image: url('/images/g20.jpg');
+    background-image: url('../images/g20.jpg');
     background-position:center;
     background-repeat:no-repeat;
     background-size:contain;
