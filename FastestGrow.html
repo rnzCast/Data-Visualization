@@ -11,7 +11,11 @@
         google.charts.setOnLoadCallback(drawAllSheets);
 
         function drawAllSheets() {
-        drawSheetName('HealthFastFixedColumnChart','SELECT A,B,C,D,E,F,G,H,I,J,K', HealthFastFixedColumnChartHandler);
+        drawSheetName('HealthFastFixedColumnChart','SELECT A,B,C,D,E,F,G,H,I,J', HealthFastFixedColumnChartHandler);
+        drawSheetName('HealthFastPerColumnChart','SELECT A, B, C, D, E, F', HealthFastPerColumnChartHandler);
+        drawSheetName('EducationFastFixedColumnChart','SELECT A,B,C,D,E,F,G,H,I,J', EducationFastFixedColumnChartHandler);
+        drawSheetName('EducationFastPerColumnChart','SELECT A, B, C, D, E, F', EducationFastPerColumnChartHandler);
+
 	    } //drawAllSheets
 
     function drawSheetName(sheetName, query, responseHandler) {
@@ -29,28 +33,99 @@
 
       function HealthFastFixedColumnChartHandler(response) {
             var data = response.getDataTable();
-            // data.sort({column:1, desc:true});
+            data.sort({column:1, desc:true});
             var options = {
+                    bar: { groupWidth: '100%' },
                     width: 670,
                     height: 440,
-                    title: 'Healthcare Growing - Top 5 Countries (Fixed Value))',
-                    legend: {position: 'top', textStyle: {fontSize: 8}},
-                    bars: 'horizontal',
-				    isStacked: false,
+                    title: 'Healthcare Growing - Top 5 Countries (Fixed Value - Billions of USD)',
+                    legend: {position: 'right', textStyle: {fontSize: 8}},
 	                vAxis:{
                         textStyle: {fontSize: 10},
                         title:'Billions of USD',
                         },
 				    hAxis:{ 
                         textStyle: {fontSize: 10},
-                        slantedText:true, 
-                        slantedTextAngle:90,
+                        viewWindow: {
+                                min: 0,
+                                max: 5,
+                            },
                         },
                      };	
             var chart = new google.visualization.ColumnChart(
                 document.getElementById('HealthFastFixedColumnChart_div'));		 
                 chart.draw(data, options);
-        } //HealthFastFixedColumnChartHandler   
+        } //HealthFastFixedColumnChartHandler  
+
+        function  HealthFastPerColumnChartHandler(response)	{
+		var data = response.getDataTable();
+	    data.sort({column: 0, desc: false});
+	    var view = new google.visualization.DataView(data);
+       var options = {
+                    width: 650,
+                    height: 500,
+                    title: 'Healthcare Growing - Top 5 Countries (Percentage)',
+                    legend: {position: 'right', textStyle: {fontSize: 8}},
+	                vAxis:{
+                        textStyle: {fontSize: 10},
+                        title:'% Of Growth Rate',
+                        format: 'percent'},
+				    hAxis:{
+                        title:'Year', 
+                        textStyle: {fontSize: 10}},
+                     };	 
+			   var  chart = new google.visualization.LineChart(
+					document.getElementById('HealthFastPerColumnChart_div'));	
+			   chart.draw(data, options);
+		}	//HealthFastPerColumnChartHandler
+
+        function EducationFastFixedColumnChartHandler(response) {
+            var data = response.getDataTable();
+            data.sort({column:1, desc:true});
+            var options = {
+                    bar: { groupWidth: '100%' },
+                    width: 670,
+                    height: 440,
+                    title: 'Education Growing - Top 5 Countries (Fixed Value - Billions of USD)',
+                    legend: {position: 'right', textStyle: {fontSize: 8}},
+	                vAxis:{
+                        textStyle: {fontSize: 10},
+                        title:'Billions of USD',
+                        },
+				    hAxis:{ 
+                        textStyle: {fontSize: 10},
+                        viewWindow: {
+                                min: 0,
+                                max: 5,
+                            },
+                        },
+                     };	
+            var chart = new google.visualization.ColumnChart(
+                document.getElementById('EducationFastFixedColumnChart_div'));		 
+                chart.draw(data, options);
+        } //EducationFastFixedColumnChartHandler  
+
+        function  EducationFastPerColumnChartHandler(response)	{
+		var data = response.getDataTable();
+	    data.sort({column: 0, desc: false});
+	    var view = new google.visualization.DataView(data);
+       var options = {
+                    width: 650,
+                    height: 500,
+                    title: 'Education Growing - Top 5 Countries (Percentage)',
+                    legend: {position: 'right', textStyle: {fontSize: 8}},
+	                vAxis:{
+                        textStyle: {fontSize: 10},
+                        title:'% Of Growth Rate',
+                        format: 'percent'},
+				    hAxis:{
+                        title:'Year', 
+                        textStyle: {fontSize: 10}},
+                     };	 
+			   var  chart = new google.visualization.LineChart(
+					document.getElementById('EducationFastPerColumnChart_div'));	
+			   chart.draw(data, options);
+		}	//EducationFastPerColumnChartHandler
 
     </script>
 
@@ -77,16 +152,16 @@
 
     <div class="content">
         <p id='article-date'>March 1st, 2020, Wahington D.C.</p>
-        <h1>Fastest Growing Countries  In Healtcare and Education of the G-20 Nations from 2000 to 2018 [Infographic]</h1>
+        <h1>Fastest Growing Countries  In Healtcare and Education of the G-20 Nations from 2010 to 2018 [Infographic]</h1>
         <p id="name">Renzo Castagnino</p>
         <p id='name-title'>Data Scientist - The George Washington University</p>
    
-        <p>In order to have a better representation of the data, we will focus on the top 5 growing economies of the G-20.</p>
+        <p>In this page, we will focus entirely on the 5 fastest growing countries of the G-20. We will analyze the growing rate in healthcare and education for the United States, Brazil, Japan, China and the United Kindom from the year 2010 to 2018.</p>
 
 
         <div class="content-left">
             <h3>Healthcare Growing - Top 5 Countries (Fix Value)</h3>
-            <p>As we can observe...</p>
+            <p>We can observe that the country with the hightest growth volume is the United States. It has been increasing from 2010 to 2015, with the highest number of 192 billions of USD in 2018. In the case of Brasil, Japan and the United Kindom, the all have had peaks and contractions in growing volume from 2010 to 2018.</p>
         </div><!--content-left-->
 
         <div class="content-right">
@@ -95,29 +170,30 @@
 
         <div class="content-left">
             <h3>Healthcare Growing - Top 5 Countries (As Percentage)</h3>
-            <p>As we can observe...</p>
+            <p>In terms of percentage of growth, we can observe that all the countries have been fluctuating from year to year. In the case of the United States, we can see that for 2010, the growth rate was 1.03%, the same as for the year 2018. Brasil had a high growth rate of 1.53% for 2010, but end up with 0.92% for 2018. China has been desacelerating from 2010 to 2016, but it has recovered in 2018 with a growth rate of 1.13% </p>
         </div><!--content-left-->
 
         <div class="content-right">
-            <div id='HealthFastPerColumnChart' class="graph"> </div>
+            <div id='HealthFastPerColumnChart_div' class="graph"> </div>
+
         </div><!--content-right-->
 
         <div class="content-left">
             <h3>Education Growing - Top 5 Countries (Fix Value)</h3>
-            <p>As we can observe...</p>
+            <p>In terms of the education growth as fixed value, all the countres have had increasing an decreasing volume. For instante in 2013, United states decreased its education growth by  12.96 billions of usd. For the year 2018, the growth has slowed down with a volume of 45 billions of USD. Similarly, Brazil, Japan and United Kindom have seen negative numbers in growth for education. For instance, in 2015 Brazil decreased in 33 billions of USD compared to the previos year, and Japan also decreased almos 40 billions in 2013.</p>
         </div><!--content-left-->
 
         <div class="content-right">
-            <div id='EducationFastFixedColumnChart' class="graph"> </div>
+            <div id='EducationFastFixedColumnChart_div' class="graph"> </div>
         </div><!--content-right-->
 
         <div class="content-left">
             <h3>Education Growing - Top 5 Countries (As Percentage)</h3>
-            <p>As we can observe...</p>
+            <p>On the graph we can observe that China had a peak in growth for the year 2011 with 2.22%, but then it sharply decreased and finished in 2018 with a growth rate of 1.08%. Brazil also has been decreasing from 2010. For instance, in 2010 the percentage of growth was 1.37%, but finished in 2018 with 0.96%</p>
         </div><!--content-left-->
 
         <div class="content-right">
-            <div id='EducationFastPerColumnChart' class="graph"> </div>
+            <div id='EducationFastPerColumnChart_div' class="graph"> </div>
         </div><!--content-right-->
 
     </div><!--content-->
